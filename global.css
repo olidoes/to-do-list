@@ -12,7 +12,7 @@ body {
 
 .to-do-list-container {
     background-color: blueviolet;
-    height: 150px;
+    height: minmax(150px, 500px);
     width: 300px;
     text-align: center;
 }
