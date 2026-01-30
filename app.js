@@ -1,4 +1,7 @@
-const toDos = [];
+const data = fetch("./toDos.json").then((response) => {
+    console.log(response.json());
+});
+let toDos = [];
 
 function loadToDos() {
     for (let i = 0; i < toDos.length; i++) {
@@ -18,6 +21,7 @@ function loadToDos() {
             toDosContiner.appendChild(p);
 
             toDos[i].added = true;
+            console.log(data);
         }
     }
 }
@@ -49,3 +53,5 @@ document
 document
     .querySelector(".to-do-list-container")
     .addEventListener("click", (event) => handleToDoClick(event));
+
+window.onload = loadToDos;
