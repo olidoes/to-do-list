@@ -3,35 +3,59 @@ let toDos =
         ? []
         : JSON.parse(localStorage.getItem("toDos"));
 
+console.log(toDos);
+
 function loadToDos() {
+    if (toDos.length === 0) {
+        console.log("Returned");
+        return;
+    }
+
     for (let i = 0; i < toDos.length; i++) {
-        if (toDos[i].added === true || toDos[i].value === "") {
-            continue;
+        const toDoContainer = document.querySelector(
+            ".to-do-list-container",
+        ).childNodes;
+
+        for (let test of toDoContainer) {
+            if (test.className !== `toDo-${toDos[i].value}`) {
+                toDos[i].isLoaded = false;
+                continue;
+            } else {
+                toDos[i].isLoaded = true;
+            }
         }
-        if (toDos[i].done === true) {
-            delete toDos[i];
+    }
+
+    for (let i = 0; i < toDos.length; i++) {
+        if (toDos[i].value === "" || toDos[i].isLoaded === true) {
+            continue;
         } else {
-            const toDosContiner = document.querySelector(
+            const toDosContainer = document.querySelector(
                 ".to-do-list-container",
             );
             let p = document.createElement("p");
             p.innerText = toDos[i].value;
+
             p.className = `toDo-${toDos[i].value}`;
 
-            toDosContiner.appendChild(p);
+            toDos[i].isLoaded = true;
 
-            toDos[i].added = true;
-            localStorage.setItem("toDos", JSON.stringify(toDos));
+            toDosContainer.appendChild(p);
         }
     }
 }
 
 function handleAddButtonClick() {
     const inputFieldValue = document.getElementById("input-area").value;
+
+    if (inputFieldValue === "") {
+        return;
+    }
+
+    document.getElementById("input-area").value = "";
     const newToDo = {
         value: inputFieldValue,
-        done: false,
-        added: false,
+        isLoaded: false,
     };
 
     toDos.push(newToDo);
@@ -44,7 +68,10 @@ function handleAddButtonClick() {
 function handleToDoClick(event) {
     for (const obj of toDos) {
         if (`toDo-${obj.value}` === event.target.className) {
-            delete toDos[obj];
+            indexOfObj = toDos[toDos.indexOf(obj)];
+
+            toDos.pop(indexOfObj);
+
             document.querySelector(`.toDo-${obj.value}`).remove();
 
             localStorage.setItem("toDos", JSON.stringify(toDos));
