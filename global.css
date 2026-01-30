@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+}
+
+.flexbox-centering-container {
+    background-color: beige;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.to-do-list-container {
+    background-color: blueviolet;
+    height: 150px;
+    width: 300px;
+    text-align: center;
+}
+
+#input-area {
+    padding: 10px;
+    border: 3px solid goldenrod;
+    box-sizing: border-box;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+#input-area:focus {
+    outline: none;
+    border: 3px solid red;
+    transition: all 0.2s ease-in-out;
+}
+
+.inputs-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#input-button {
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+#input-button:hover {
+    box-shadow: 0px 0px 5px 4px white;
+    transition: box-shadow 0.1s ease-in-out;
+}
