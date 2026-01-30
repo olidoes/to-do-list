@@ -3,60 +3,33 @@ let toDos =
         ? []
         : JSON.parse(localStorage.getItem("toDos"));
 
-console.log(toDos);
-
 function loadToDos() {
-    if (toDos.length === 0) {
-        console.log("Returned");
-        return;
-    }
+    const toDosContainer = document.querySelector(".to-dos");
+
+    toDosContainer.innerHTML = "";
 
     for (let i = 0; i < toDos.length; i++) {
-        const toDoContainer = document.querySelector(
-            ".to-do-list-container",
-        ).childNodes;
+        let p = document.createElement("p");
+        p.innerText = toDos[i].value;
+        p.id = toDos[i].id;
 
-        for (let test of toDoContainer) {
-            if (test.className !== `toDo-${toDos[i].value}`) {
-                toDos[i].isLoaded = false;
-                continue;
-            } else {
-                toDos[i].isLoaded = true;
-            }
-        }
-    }
-
-    for (let i = 0; i < toDos.length; i++) {
-        if (toDos[i].value === "" || toDos[i].isLoaded === true) {
-            continue;
-        } else {
-            const toDosContainer = document.querySelector(
-                ".to-do-list-container",
-            );
-            let p = document.createElement("p");
-            p.innerText = toDos[i].value;
-
-            p.className = `toDo-${toDos[i].value}`;
-
-            toDos[i].isLoaded = true;
-
-            toDosContainer.appendChild(p);
-        }
+        toDosContainer.appendChild(p);
     }
 }
 
 function handleAddButtonClick() {
-    const inputFieldValue = document.getElementById("input-area").value;
+    let inputFieldValue = document.getElementById("input-area").value;
 
     if (inputFieldValue === "") {
         return;
     }
 
-    document.getElementById("input-area").value = "";
     const newToDo = {
         value: inputFieldValue,
-        isLoaded: false,
+        id: Date.now(),
     };
+
+    document.getElementById("input-area").value = "";
 
     toDos.push(newToDo);
 
@@ -66,15 +39,17 @@ function handleAddButtonClick() {
 }
 
 function handleToDoClick(event) {
-    for (const obj of toDos) {
-        if (`toDo-${obj.value}` === event.target.className) {
-            indexOfObj = toDos[toDos.indexOf(obj)];
-
-            toDos.pop(indexOfObj);
-
-            document.querySelector(`.toDo-${obj.value}`).remove();
+    for (const object of toDos) {
+        if (String(object.id) === event.target.id) {
+            toDos = toDos.filter(
+                (currentObject) =>
+                    String(object.id) !== String(currentObject.id),
+            );
 
             localStorage.setItem("toDos", JSON.stringify(toDos));
+
+            loadToDos();
+            return;
         }
     }
 }
@@ -84,7 +59,7 @@ document
     .addEventListener("click", handleAddButtonClick);
 
 document
-    .querySelector(".to-do-list-container")
+    .querySelector(".to-dos")
     .addEventListener("click", (event) => handleToDoClick(event));
 
 window.addEventListener("load", (event) => {
