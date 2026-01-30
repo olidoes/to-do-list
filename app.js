@@ -1,6 +1,8 @@
-const data = fetch("./toDos.json").then((response) => {
-    console.log(response.json());
-});
+const data = fetch("./toDos.json")
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json[0]);
+    });
 let toDos = [];
 
 function loadToDos() {
