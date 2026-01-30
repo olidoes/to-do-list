@@ -2,10 +2,7 @@ const toDos = [];
 
 function loadToDos() {
     for (let i = 0; i < toDos.length; i++) {
-        if (toDos[i].added === true) {
-            continue;
-        }
-        if (toDos[i].value === "") {
+        if (toDos[i].added === true || toDos[i].value === "") {
             continue;
         }
         if (toDos[i].done === true) {
