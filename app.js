@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 const data = fetch("./toDos.json")
     .then((response) => response.json())
     .then((json) => {
         console.log(json[0]);
     });
 let toDos = [];
+=======
+let toDos =
+    localStorage.getItem("toDos") === null
+        ? []
+        : JSON.parse(localStorage.getItem("toDos"));
+
+console.log();
+>>>>>>> pre-json
 
 function loadToDos() {
     for (let i = 0; i < toDos.length; i++) {
@@ -30,11 +39,15 @@ function loadToDos() {
 
 function handleAddButtonClick() {
     const inputFieldValue = document.getElementById("input-area").value;
-    const newToDo = toDos.push({
+    const newToDo = {
         value: inputFieldValue,
         done: false,
         added: false,
-    });
+    };
+
+    toDos.push(newToDo);
+
+    localStorage.setItem("toDos", JSON.stringify(toDos));
 
     loadToDos();
 }
@@ -44,6 +57,8 @@ function handleToDoClick(event) {
         if (`toDo-${obj.value}` === event.target.className) {
             delete toDos[obj];
             document.querySelector(`.toDo-${obj.value}`).remove();
+
+            localStorage.setItem("toDos", JSON.stringify(toDos));
         }
     }
 }
@@ -56,4 +71,10 @@ document
     .querySelector(".to-do-list-container")
     .addEventListener("click", (event) => handleToDoClick(event));
 
+<<<<<<< HEAD
 window.onload = loadToDos;
+=======
+window.addEventListener("load", (event) => {
+    loadToDos();
+});
+>>>>>>> pre-json
